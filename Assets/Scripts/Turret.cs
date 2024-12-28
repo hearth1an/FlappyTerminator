@@ -5,6 +5,8 @@ using UnityEngine;
 public class Turret : MonoBehaviour
 {
     [SerializeField] private GameObject _turret;
+    [SerializeField] private BulletSpawner _bulletSpawner;
+
     private WaitForSeconds _rate;
     private float _checkRate = 0.1f;
 
@@ -12,7 +14,7 @@ public class Turret : MonoBehaviour
     public bool IsPlayerNear { get; private set; } = false;
 
     private void Awake()
-    {
+    {        
         _rate = new WaitForSeconds(_checkRate);
     }
     private void Update()
@@ -35,6 +37,8 @@ public class Turret : MonoBehaviour
 
                 // Применяем угол к повороту башни
                 _turret.transform.rotation = Quaternion.Euler(0, 0, angle);
+                
+                _bulletSpawner.StartCoroutine(_bulletSpawner.ShootCoroutine(player.transform.position));
 
                 return true;
             }
