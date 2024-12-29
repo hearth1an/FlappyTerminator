@@ -1,25 +1,37 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
-    [SerializeField] private GameObject _turret;
+    [SerializeField] private Transform _turret;
     [SerializeField] private BulletSpawner _bulletSpawner;
 
     private WaitForSeconds _rate;
-    private float _checkRate = 0.1f;
-
-    private float _viewRadius = 5f;
-    public bool IsPlayerNear { get; private set; } = false;
+    private float _checkRate = 0.01f;
+    private float _viewRadius = 10f;
+    private Vector2 _currentDirection;
 
     private void Awake()
-    {        
+    {
         _rate = new WaitForSeconds(_checkRate);
     }
-    private void Update()
+
+    private void Start()
     {
-        StartCoroutine(nameof(CheckPlayerNear));
+        StartCoroutine(CheckPlayerNear());
+    }
+
+    private IEnumerator CheckPlayerNear()
+    {
+        while (enabled)
+        {
+            if (IsPlayerInSight())
+            {
+                _bulletSpawner.StartShooting(_currentDirection);
+            }
+
+            yield return _rate;
+        }
     }
 
     private bool IsPlayerInSight()
@@ -30,30 +42,16 @@ public class Turret : MonoBehaviour
         {
             if (hit.TryGetComponent<BirdCollisionHandler>(out var player))
             {
-                Vector3 direction = (player.transform.position - _turret.transform.position).normalized;
+                Vector2 direction = (player.transform.position - _turret.position).normalized;
 
-                // Рассчитываем угол в градусах (по оси Z)
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                _turret.rotation = Quaternion.Euler(0, 0, angle);
 
-                // Применяем угол к повороту башни
-                _turret.transform.rotation = Quaternion.Euler(0, 0, angle);
-                
-                _bulletSpawner.StartCoroutine(_bulletSpawner.ShootCoroutine(player.transform.position));
-
+                _currentDirection = direction;
                 return true;
             }
         }
 
         return false;
-    }
-
-    private IEnumerator CheckPlayerNear()
-    {
-        while (enabled)
-        {
-            IsPlayerNear = IsPlayerInSight();
-
-            yield return _rate;
-        }
     }
 }

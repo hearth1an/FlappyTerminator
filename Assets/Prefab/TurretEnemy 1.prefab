@@ -112,7 +112,8 @@ Transform:
   m_LocalPosition: {x: -0.011, y: 0.030999959, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1659418975277898205}
   m_Father: {fileID: 8925161540439727403}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
@@ -177,7 +178,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1659418975277898205}
-  - component: {fileID: 7573168394427121112}
   m_Layer: 0
   m_Name: BulletSpawner
   m_TagString: Untagged
@@ -192,28 +192,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3270134585371074439}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.011000156, y: 1.1170001, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.19, y: 0.002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8925161540439727403}
+  m_Father: {fileID: 6296016717333037341}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7573168394427121112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3270134585371074439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0eed269825be14a44bb4c889b3b319e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefab: {fileID: 6389140820780594438, guid: f6ebbe6752bd0476386d05d1aee3a9c1, type: 3}
-  _spawnPoint: {fileID: 1659418975277898205}
 --- !u!1 &6192982469499113135
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +302,7 @@ GameObject:
   - component: {fileID: 3585715175332334628}
   - component: {fileID: 4217286835377879505}
   - component: {fileID: 7866448234265855928}
+  - component: {fileID: 4550868320876097568}
   m_Layer: 0
   m_Name: TurretEnemy 1
   m_TagString: Untagged
@@ -335,7 +322,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1659418975277898205}
   - {fileID: 6296016717333037341}
   - {fileID: 2103355460319529823}
   - {fileID: 4275118439710766689}
@@ -451,5 +437,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 193d18497abcdc54983d91cdda813bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _turret: {fileID: 2762727366008391446}
-  _bulletSpawner: {fileID: 7573168394427121112}
+  _turret: {fileID: 6296016717333037341}
+  _bulletSpawner: {fileID: 4550868320876097568}
+--- !u!114 &4550868320876097568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7675037954551192523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eed269825be14a44bb4c889b3b319e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 6389140820780594438, guid: f6ebbe6752bd0476386d05d1aee3a9c1, type: 3}
+  _spawnPoint: {fileID: 1659418975277898205}

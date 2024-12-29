@@ -1,40 +1,77 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class BulletSpawner : MonoBehaviour
 {
     [SerializeField] private Bullet _prefab;
     [SerializeField] private Transform _spawnPoint;
 
-    private float _shootInterval = 2f; // Интервал между выстрелами
-    private bool _isShooting = false;  // Флаг для контроля состояния стрельбы
+    public ObjectPool<Bullet> _pool;
+    private bool _isShooting = false;
+    private float _shootInterval = 1f;
 
-    public void StartShooting(Vector3 direction)
+    private void Awake()
     {
-        if (!_isShooting) // Проверка, чтобы избежать дублирования корутин
-        {
-            _isShooting = true;
+        _pool = new ObjectPool<Bullet>(
+            createFunc: CreateBullet,
+            actionOnGet: ActivateBullet,
+            actionOnRelease: DeactivateBullet,
+            actionOnDestroy: DestroyBullet,
+            defaultCapacity: 10,
+            maxSize: 20
+        );
+    }
+
+    private Bullet CreateBullet()
+    {
+        Bullet bullet = Instantiate(_prefab);
+        bullet.SetPool(_pool);
+        bullet.gameObject.SetActive(false);
+        return bullet;
+    }
+
+    private void ActivateBullet(Bullet bullet)
+    {
+        bullet.transform.position = _spawnPoint.position;
+        bullet.transform.rotation = _spawnPoint.rotation;
+
+        Vector3 direction = _spawnPoint.right;
+
+        bullet.SetDirection(direction);
+
+        bullet.gameObject.SetActive(true);
+    }
+
+    private void DeactivateBullet(Bullet bullet)
+    {
+        bullet.gameObject.SetActive(false);
+    }
+
+    private void DestroyBullet(Bullet bullet)
+    {
+        Destroy(bullet.gameObject);
+    }
+
+    public void StartShooting(Vector2 direction)
+    {        
+        if (!_isShooting)
             StartCoroutine(ShootCoroutine(direction));
-        }
     }
 
-    public IEnumerator ShootCoroutine(Vector3 direction)
+    private IEnumerator ShootCoroutine(Vector2 direction)
     {
-        while (_isShooting) // Бесконечный цикл для постоянной стрельбы
+        WaitForSeconds wait = new WaitForSeconds(_shootInterval);
+
+        _isShooting = true;
+
+        while (_isShooting)
         {
-            Shoot(direction); // Стреляем пулей
-            yield return new WaitForSeconds(_shootInterval); // Ждём указанное время
+            Bullet bullet = _pool.Get();        
+
+            yield return wait;
         }
-    }
 
-    public void StopShooting()
-    {
-        _isShooting = false; // Останавливаем стрельбу
-    }
-
-    private void Shoot(Vector3 direction)
-    {
-        Bullet bullet = Instantiate(_prefab, _spawnPoint.position, Quaternion.identity);
-        bullet.GetDirection(direction);
+        _isShooting = false;
     }
 }
