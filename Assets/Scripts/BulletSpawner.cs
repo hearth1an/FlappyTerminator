@@ -37,10 +37,9 @@ public class BulletSpawner : MonoBehaviour
         bullet.transform.rotation = _spawnPoint.rotation;
 
         Vector3 direction = _spawnPoint.right;
+        bullet.gameObject.SetActive(true);
 
         bullet.SetDirection(direction);
-
-        bullet.gameObject.SetActive(true);
     }
 
     private void DeactivateBullet(Bullet bullet)
@@ -63,14 +62,15 @@ public class BulletSpawner : MonoBehaviour
     {
         WaitForSeconds wait = new WaitForSeconds(_shootInterval);
 
-        _isShooting = true;
+        _isShooting = true;       
 
         while (_isShooting)
         {
-            Bullet bullet = _pool.Get();        
+            _pool.Get();        
 
             yield return wait;
         }
+
 
         _isShooting = false;
     }

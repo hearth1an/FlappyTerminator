@@ -12,8 +12,8 @@ public class Turret : MonoBehaviour
     private Vector2 _currentDirection;
 
     private void Awake()
-    {
-        _rate = new WaitForSeconds(_checkRate);
+    {       
+        _rate = new WaitForSeconds(_checkRate);        
     }
 
     private void Start()
@@ -26,7 +26,7 @@ public class Turret : MonoBehaviour
         while (enabled)
         {
             if (IsPlayerInSight())
-            {
+            {                
                 _bulletSpawner.StartShooting(_currentDirection);
             }
 
