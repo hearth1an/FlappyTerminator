@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Turret : MonoBehaviour
+public class Turret : MonoBehaviour, IInteractable
 {
     [SerializeField] private Transform _turret;
     [SerializeField] private BulletSpawner _bulletSpawner;
@@ -16,7 +16,7 @@ public class Turret : MonoBehaviour
         _rate = new WaitForSeconds(_checkRate);        
     }
 
-    private void Start()
+    public void Shoot()
     {
         StartCoroutine(CheckPlayerNear());
     }

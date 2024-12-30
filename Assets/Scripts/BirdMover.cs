@@ -8,6 +8,7 @@ public class BirdMover : MonoBehaviour
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _maxRotationZ;
     [SerializeField] private float _minRotationZ;
+    [SerializeField] private BulletSpawner _bulletSpawner;
 
     private Vector3 _startPosition;
     private Rigidbody2D _rigidbody2D;
@@ -31,6 +32,11 @@ public class BirdMover : MonoBehaviour
         {
             _rigidbody2D.velocity = new Vector2(_speed, _tapForce);
             transform.rotation = _maxRotation;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _bulletSpawner.ShootSingle();
         }
 
         transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _rotationSpeed * Time.deltaTime);

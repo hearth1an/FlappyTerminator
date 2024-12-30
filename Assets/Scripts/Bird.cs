@@ -31,7 +31,7 @@ public class Bird : MonoBehaviour
 
     private void ProcessCollision(IInteractable interactable)
     {
-        if (interactable is Turret)
+        if (interactable is Turret || interactable is Bullet || interactable is Ground)
         {
             GameOver?.Invoke();
         }

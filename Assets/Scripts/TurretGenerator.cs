@@ -33,5 +33,6 @@ public class TurretGenerator : MonoBehaviour
 
         turret.gameObject.SetActive(true);
         turret.transform.position = spawnPoint;
+        turret.Shoot();
     }
 }

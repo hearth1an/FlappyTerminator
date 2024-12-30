@@ -8,7 +8,7 @@ public class BulletSpawner : MonoBehaviour
     [SerializeField] private Transform _spawnPoint;
 
     public ObjectPool<Bullet> _pool;
-    private bool _isShooting = false;
+    private bool _isShooting;
     private float _shootInterval = 1f;
 
     private void Awake()
@@ -20,7 +20,12 @@ public class BulletSpawner : MonoBehaviour
             actionOnDestroy: DestroyBullet,
             defaultCapacity: 10,
             maxSize: 20
-        );
+        );        
+    }
+
+    private void OnEnable()
+    {
+        _isShooting = false;
     }
 
     private Bullet CreateBullet()
@@ -53,24 +58,28 @@ public class BulletSpawner : MonoBehaviour
     }
 
     public void StartShooting(Vector2 direction)
-    {        
+    {       
         if (!_isShooting)
             StartCoroutine(ShootCoroutine(direction));
+    }
+
+    public void ShootSingle()
+    {
+        _pool.Get();
     }
 
     private IEnumerator ShootCoroutine(Vector2 direction)
     {
         WaitForSeconds wait = new WaitForSeconds(_shootInterval);
 
-        _isShooting = true;       
+        _isShooting = true;
 
         while (_isShooting)
         {
-            _pool.Get();        
+            _pool.Get();
 
             yield return wait;
         }
-
 
         _isShooting = false;
     }
