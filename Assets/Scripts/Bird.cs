@@ -1,12 +1,11 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(BirdMover))]
-[RequireComponent(typeof(ScoreCounter))]
+[RequireComponent(typeof(BirdController))]
 [RequireComponent(typeof(BirdCollisionHandler))]
 public class Bird : MonoBehaviour
 {
-    private BirdMover _birdMover;
+    private BirdController _birdMover;
     private ScoreCounter _scoreCounter;
     private BirdCollisionHandler _handler;
 
@@ -16,7 +15,7 @@ public class Bird : MonoBehaviour
     {
         _scoreCounter = GetComponent<ScoreCounter>();
         _handler = GetComponent<BirdCollisionHandler>();
-        _birdMover = GetComponent<BirdMover>();
+        _birdMover = GetComponent<BirdController>();
     }
 
     private void OnEnable()
@@ -35,16 +34,10 @@ public class Bird : MonoBehaviour
         {
             GameOver?.Invoke();
         }
-
-        else if(interactable is ScoreZone) 
-        {
-            _scoreCounter.Add();
-        }
     }
 
     public void Reset()
-    {
-        _scoreCounter.Reset();
+    {        
         _birdMover.Reset();
     }
 }

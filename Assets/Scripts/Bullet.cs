@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 public class Bullet : MonoBehaviour, IInteractable
-{
+{   
     private Rigidbody2D _rigidbody;
     private float _speed = 5f;
     private ObjectPool<Bullet> _pool;
@@ -29,11 +29,14 @@ public class Bullet : MonoBehaviour, IInteractable
         {
             _pool.Release(this);
         }
-
-        if (collision.gameObject.TryGetComponent<Turret>(out Turret turret))
+        else if (collision.gameObject.TryGetComponent<Turret>(out Turret turret))
         {
             _pool.Release(this);
-            turret.gameObject.SetActive(false);
+            turret.InitDestroy();
+        }
+        else
+        {
+            _pool.Release(this);
         }
     }
 }

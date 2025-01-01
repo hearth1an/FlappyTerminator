@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ScoreView : MonoBehaviour
 {
+    private const string TurretsDestroyed = "Turrets destroyed: ";
+
     [SerializeField] private ScoreCounter _scoreCounter;
     [SerializeField] private TMP_Text _score;
 
@@ -18,6 +20,6 @@ public class ScoreView : MonoBehaviour
 
     private void OnScoreChanged(int score)
     {
-       _score.text = score.ToString();
+       _score.text = TurretsDestroyed + score.ToString();
     }
 }

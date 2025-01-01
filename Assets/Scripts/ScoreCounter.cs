@@ -10,7 +10,7 @@ public class ScoreCounter : MonoBehaviour
     public void Add()
     {
         _score++;
-        ScoreChanged?.Invoke(_score);
+        ScoreChanged?.Invoke(_score);        
     }
 
     public void Reset()

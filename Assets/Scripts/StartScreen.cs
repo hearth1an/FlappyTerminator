@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using UnityEngine;
 
 public class StartScreen : Window
 {
@@ -7,7 +9,7 @@ public class StartScreen : Window
     public override void Close()
     {
         WindowGroup.alpha = 0f;
-        ActionButton.interactable = false;
+        ActionButton.interactable = false;       
     }
 
     public override void Open()

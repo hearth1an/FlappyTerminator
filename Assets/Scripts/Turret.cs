@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,9 +12,11 @@ public class Turret : MonoBehaviour, IInteractable
     private float _viewRadius = 10f;
     private Vector2 _currentDirection;
 
+    public event Action<Turret> TurretDestroyed;
+
     private void Awake()
     {       
-        _rate = new WaitForSeconds(_checkRate);        
+        _rate = new WaitForSeconds(_checkRate);
     }
 
     public void Shoot()
@@ -34,6 +37,12 @@ public class Turret : MonoBehaviour, IInteractable
         }
     }
 
+    public void InitDestroy()
+    {
+        TurretDestroyed?.Invoke(this);
+        gameObject.SetActive(false);
+    }
+
     private bool IsPlayerInSight()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _viewRadius);
@@ -46,8 +55,8 @@ public class Turret : MonoBehaviour, IInteractable
 
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 _turret.rotation = Quaternion.Euler(0, 0, angle);
-
                 _currentDirection = direction;
+
                 return true;
             }
         }

@@ -7,6 +7,7 @@ public class TurretGenerator : MonoBehaviour
     [SerializeField] private float _lowerBound;
     [SerializeField] private float _upperBound;
     [SerializeField] private ObjectPool _pool;
+    [SerializeField] private ScoreCounter _scoreCounter;
 
     private void Start()
     {
@@ -33,6 +34,13 @@ public class TurretGenerator : MonoBehaviour
 
         turret.gameObject.SetActive(true);
         turret.transform.position = spawnPoint;
+        turret.TurretDestroyed += UpdateScore;
         turret.Shoot();
+    }
+
+    private void UpdateScore(Turret turret)
+    {
+        _scoreCounter.Add();
+        turret.TurretDestroyed -= UpdateScore;
     }
 }

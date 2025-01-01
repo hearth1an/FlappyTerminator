@@ -7,9 +7,10 @@ public class BulletSpawner : MonoBehaviour
     [SerializeField] private Bullet _prefab;
     [SerializeField] private Transform _spawnPoint;
 
-    public ObjectPool<Bullet> _pool;
+    private ObjectPool<Bullet> _pool;
     private bool _isShooting;
-    private float _shootInterval = 1f;
+    private float _shootInterval = 2f;
+    private float _bulletLifetime = 3f;
 
     private void Awake()
     {
@@ -82,5 +83,5 @@ public class BulletSpawner : MonoBehaviour
         }
 
         _isShooting = false;
-    }
+    }  
 }
