@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BirdTracker : MonoBehaviour
+public class BirdFollower : MonoBehaviour
 {
     [SerializeField] private Bird _bird;
     [SerializeField] private float _xOffset;

@@ -10,7 +10,6 @@ public class BulletSpawner : MonoBehaviour
     private ObjectPool<Bullet> _pool;
     private bool _isShooting;
     private float _shootInterval = 2f;
-    private float _bulletLifetime = 3f;
 
     private void Awake()
     {
@@ -60,7 +59,7 @@ public class BulletSpawner : MonoBehaviour
 
     public void StartShooting(Vector2 direction)
     {       
-        if (!_isShooting)
+        if (_isShooting == false)
             StartCoroutine(ShootCoroutine(direction));
     }
 

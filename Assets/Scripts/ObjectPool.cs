@@ -7,9 +7,7 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] private Turret _prefab;
 
     private Queue<Turret> _pool;
-
-    public IEnumerable<Turret> PooledObjects => _pool;
-
+   
     private void Awake()
     {
         _pool = new Queue<Turret>();

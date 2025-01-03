@@ -6,17 +6,21 @@ public class Turret : MonoBehaviour, IInteractable
 {
     [SerializeField] private Transform _turret;
     [SerializeField] private BulletSpawner _bulletSpawner;
+    [SerializeField] private EffectsHandler _effects;
 
+    private bool _isActive = true;
     private WaitForSeconds _rate;
+    private float _destroyDelay = 0.5f;
     private float _checkRate = 0.01f;
     private float _viewRadius = 10f;
     private Vector2 _currentDirection;
 
     public event Action<Turret> TurretDestroyed;
+    
 
     private void Awake()
     {       
-        _rate = new WaitForSeconds(_checkRate);
+        _rate = new WaitForSeconds(_checkRate);        
     }
 
     public void Shoot()
@@ -26,7 +30,7 @@ public class Turret : MonoBehaviour, IInteractable
 
     private IEnumerator CheckPlayerNear()
     {
-        while (enabled)
+        while (_isActive)
         {
             if (IsPlayerInSight())
             {                
@@ -39,13 +43,29 @@ public class Turret : MonoBehaviour, IInteractable
 
     public void InitDestroy()
     {
-        TurretDestroyed?.Invoke(this);
+        _isActive = false;
+
+        TurretDestroyed?.Invoke(this);       
+
+        _effects.Play();
+
+        StartCoroutine(DestroyRoutine());
+    }
+
+    private IEnumerator DestroyRoutine()
+    {
+        WaitForSeconds _wait = new WaitForSeconds(_destroyDelay);        
+
+        yield return _wait;
+
         gameObject.SetActive(false);
     }
 
     private bool IsPlayerInSight()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _viewRadius);
+        LayerMask birdLayer = LayerMask.GetMask("Bird");
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _viewRadius, birdLayer);
 
         foreach (var hit in hits)
         {

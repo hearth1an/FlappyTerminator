@@ -1,21 +1,19 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(BirdController))]
+[RequireComponent(typeof(BirdMover))]
 [RequireComponent(typeof(BirdCollisionHandler))]
 public class Bird : MonoBehaviour
 {
-    private BirdController _birdMover;
-    private ScoreCounter _scoreCounter;
+    private BirdMover _birdMover;
     private BirdCollisionHandler _handler;
 
     public event Action GameOver;
 
     private void Awake()
-    {
-        _scoreCounter = GetComponent<ScoreCounter>();
+    {        
         _handler = GetComponent<BirdCollisionHandler>();
-        _birdMover = GetComponent<BirdController>();
+        _birdMover = GetComponent<BirdMover>();
     }
 
     private void OnEnable()

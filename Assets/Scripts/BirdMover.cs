@@ -1,8 +1,12 @@
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class BirdController : MonoBehaviour
+public class BirdMover : MonoBehaviour
 {
+    private const KeyCode Jump = KeyCode.Space;
+    private const KeyCode Ability = KeyCode.E;
+
     [SerializeField] private float _tapForce;
     [SerializeField] private float _speed;
     [SerializeField] private float _rotationSpeed;
@@ -15,8 +19,8 @@ public class BirdController : MonoBehaviour
     private Quaternion _maxRotation;
     private Quaternion _minRotation;
 
-    private void Start()
-    {
+    private void Awake()
+    {       
         _startPosition = transform.position;
         _rigidbody2D = GetComponent<Rigidbody2D>();
 
@@ -28,13 +32,13 @@ public class BirdController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(Jump))
         {
             _rigidbody2D.velocity = new Vector2(_speed, _tapForce);
             transform.rotation = _maxRotation;
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(Ability))
         {
             _bulletSpawner.ShootSingle();
         }
